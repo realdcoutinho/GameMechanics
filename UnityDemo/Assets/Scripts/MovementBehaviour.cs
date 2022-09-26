@@ -34,7 +34,7 @@ public class MovementBehaviour : MonoBehaviour
         HandleRotation();
     }
 
-    private void FisexUpdated()
+    private void FixedUpdate()
     {
         HandleMovement();
     }
