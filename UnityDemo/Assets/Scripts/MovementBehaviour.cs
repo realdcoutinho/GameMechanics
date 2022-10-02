@@ -5,49 +5,56 @@ using UnityEngine;
 public class MovementBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private float _movementSpeed = 1.0f;
+    protected float _movementSpeed = 1.0f;
 
-    private Rigidbody _rigidBody;
+    protected Rigidbody _rigidbody;
 
-    private Vector3 _desiredMovementDirection = Vector3.zero;
+    protected Vector3 _desiredMovementDirection = Vector3.zero;
     public Vector3 DesiredMovementDirection
     {
         get { return _desiredMovementDirection; }
         set { _desiredMovementDirection = value; }
     }
 
-    private Vector3 _desiredLookatPoint = Vector3.zero;
-
+    protected Vector3 _desiredLookatPoint = Vector3.zero;
     public Vector3 DesiredLookatPoint
     {
         get { return _desiredLookatPoint; }
         set { _desiredLookatPoint = value; }
     }
 
-    private void Awake()
+    protected GameObject _target;
+    public GameObject Target
     {
-        _rigidBody = GetComponent<Rigidbody>();
+        get { return _target; }
+        set { _target = value; }
+
     }
 
-    private void Update()
+    protected virtual void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+    }
+
+    protected virtual void Update()
     {
         HandleRotation();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         HandleMovement();
     }
 
-    private void HandleMovement()
+    protected virtual void HandleMovement()
     {
         Vector3 movement = _desiredMovementDirection.normalized;
         movement *= _movementSpeed;
-        _rigidBody.velocity = movement;
+        _rigidbody.velocity = movement;
     }
-    private void HandleRotation()
+
+    protected virtual void HandleRotation()
     {
         transform.LookAt(_desiredLookatPoint, Vector3.up);
     }
-
 }

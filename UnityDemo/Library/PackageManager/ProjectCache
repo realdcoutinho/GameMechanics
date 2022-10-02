@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637997752008912565
-    m_Hash: 3435395381
+      ticks: 637996191231624617
+    m_Hash: 1674067885
   m_LockFileStatus:
     m_FilePath: C:/Users/diogo/Documents/GitHub/GameMechanics/UnityDemo/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637997752008912565
-    m_Hash: 1293529031
+      ticks: 637996191231664517
+    m_Hash: 208355045
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:

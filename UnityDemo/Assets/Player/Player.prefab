@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 1217209921112689162}
   - component: {fileID: 1217209921112689163}
   - component: {fileID: 8015781184223675633}
+  - component: {fileID: 6121499672674188639}
   m_Layer: 7
   m_Name: Player
   m_TagString: Friendly
@@ -107,6 +108,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0666edec8aa7614458970488667a127e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _primaryGunTemplate: {fileID: 710830914914980552, guid: f00b8a7343eb4e54a9d523b3427f06e8, type: 3}
+  _secondaryGunTemplate: {fileID: 5690148199370294924, guid: 4211c1f42d8109846a792b4c3834df57, type: 3}
+  _primarySocket: {fileID: 1040675867368780884}
+  _secondarySocket: {fileID: 6737121218723251319}
 --- !u!114 &1217209921112689163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +140,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
+--- !u!114 &6121499672674188639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967015811549886685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2585bfba6650f648b09ea6939ac65ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startHealth: 100
 --- !u!1 &5166818962586135239
 GameObject:
   m_ObjectHideFlags: 0
