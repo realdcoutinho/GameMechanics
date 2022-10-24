@@ -11,4 +11,9 @@ public class Key : MonoBehaviour
         Green,
         Blue
     }
+
+    public KeyType GetKeyType()
+    {
+        return keyType;
+    }
 }
