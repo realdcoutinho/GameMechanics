@@ -1,0 +1,11 @@
+bin/
+TempFiles/
+.vs/
+.Library
+.Logs/
+.obj/
+.Temp/
+.UserSetting/
+.vsconfig/
+.Assembly-CSharp.csproj
+.UnityDemo.snl
