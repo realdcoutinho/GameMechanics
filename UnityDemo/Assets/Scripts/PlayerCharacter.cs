@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerCharacter : BasicCharacter
@@ -69,4 +70,26 @@ public class PlayerCharacter : BasicCharacter
         if (Input.GetAxis(RELOAD) > 0.0f)
             _shootingBehaviour.Reload();
     }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        ChargerBattery charger = collider.GetComponent<ChargerBattery>();
+        if (charger != null)
+        {
+            _shootingBehaviour.ReloadHalf();
+            Destroy(charger.gameObject);
+        }
+
+        ChargingStation station = collider.GetComponent<ChargingStation>();
+        if (station != null)
+        {
+            if(station.GetChargingMode() == true)
+            {
+                station.SetChargeMode();
+                _shootingBehaviour.Reload();
+            }
+        }
+    }
+
+
 }
