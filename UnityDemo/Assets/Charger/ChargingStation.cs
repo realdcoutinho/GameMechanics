@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static System.Collections.Specialized.BitVector32;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class ChargingStation : MonoBehaviour
 {
     // Start is called before the first frame update
     private bool _canCharge = true;
     private float _timeSinceCharge = 0.0f;
-    private float _timeBetweenCharges = 5.0f;
+    private float _timeBetweenCharges = 10.0f;
     private bool _doOnceOn = true;
     private bool _doOnceOff = true;
 
@@ -23,9 +24,26 @@ public class ChargingStation : MonoBehaviour
     private GameObject _pointLightBlue;
     private GameObject _pointLightRed;
 
+    private GameObject _playerTarget = null;
+    private Vector3 _playerPosition;
+    private float _senseRadius = 8.0f;
+
+    private SoundManager _soundManager = null;
+
     private void Start()
     {
         InitializeStationObjects();
+        PlayerCharacter player = FindObjectOfType<PlayerCharacter>();
+        if (player)
+        {
+            _playerTarget = player.gameObject;
+        }
+        SoundManager soundManager = FindObjectOfType<SoundManager>();
+        if (soundManager)
+        {
+            _soundManager = soundManager;
+        }
+
     }
 
     private void InitializeStationObjects()
@@ -39,13 +57,17 @@ public class ChargingStation : MonoBehaviour
 
         _pointLightBlue = GameObject.Find("Point Light Blue");
         _pointLightRed = GameObject.Find("Point Light Red");
+
+        _pointLightBlue.SetActive(false);
+        _pointLightRed.SetActive(false);
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        ManageLight();
+        _playerPosition = _playerTarget.transform.position;
+        UpdatePlayerPosition();
         if (_canCharge == false)
         {
             _timeSinceCharge += Time.deltaTime;
@@ -55,12 +77,8 @@ public class ChargingStation : MonoBehaviour
                 _canCharge = true;
                 _doOnceOn = true;
                 _doOnceOff = true;
-
             }
         }
-
-
-
     }
 
     public void SetChargeMode()
@@ -69,7 +87,6 @@ public class ChargingStation : MonoBehaviour
         {
             _canCharge = false;
         }
-
     }
 
     public bool GetChargingMode()
@@ -90,9 +107,10 @@ public class ChargingStation : MonoBehaviour
             _lightThreeRed.SetActive(false);
 
             _pointLightBlue.SetActive(true);
-
             _pointLightRed.SetActive(false);
+
             _doOnceOn = false;
+            _soundManager.PlayChargerActivated();
         }
         if (!_canCharge && _doOnceOff)
         {
@@ -105,9 +123,31 @@ public class ChargingStation : MonoBehaviour
             _lightThreeRed.SetActive(true);
 
             _pointLightBlue.SetActive(false);
-
             _pointLightRed.SetActive(true);
+
             _doOnceOff = false;
+        }
+    }
+
+
+    private void UpdatePlayerPosition()
+    {
+        if ((transform.position - _playerPosition).sqrMagnitude < _senseRadius * _senseRadius)
+        {
+            ManageLight();
+        }
+        if ((transform.position - _playerPosition).sqrMagnitude > _senseRadius * _senseRadius)
+        {
+            if(!_doOnceOff)
+            {
+                _pointLightRed.SetActive(false);
+                _doOnceOff = true;
+            }
+            if (!_doOnceOn)
+            {
+                _pointLightBlue.SetActive(false);
+                _doOnceOn = true;
+            }
         }
     }
 

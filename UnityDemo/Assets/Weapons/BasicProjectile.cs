@@ -13,13 +13,27 @@ public class BasicProjectile : MonoBehaviour
     [SerializeField]
     private int _damage = 5;
 
+
+    private float _hitRange = 0.7f;
+
+
+    private PlayerCharacter _player = null;
+
     private void Awake()
     {
         Invoke(KILL_METHODNAME, _lifeTime);
+
+        PlayerCharacter player = FindObjectOfType<PlayerCharacter>();
+        if (player)
+        {
+            //_player = player.gameObject;
+            _player = player;
+        }
     }
 
     void FixedUpdate()
     {
+
         if (!WallDetection())
             transform.position += transform.forward * Time.deltaTime * _speed;
     }
@@ -50,6 +64,14 @@ public class BasicProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        //PlayerCharacter player = other.GetComponent<PlayerCharacter>();
+        //if (player != null)
+        //{
+        //    Debug.Log("Hiiiiiiiiiiiiiit");
+        //    Destroy(gameObject);
+        //}
+
         //make sure we only hit friendly or enemies
         if (other.tag != FRIENDLY_TAG && other.tag != ENEMY_TAG)
             return;
@@ -64,6 +86,20 @@ public class BasicProjectile : MonoBehaviour
         {
             otherHealth.Damage(_damage);
             Kill();
+        }
+
+
+
+
+    }
+
+    private void Update()
+    {
+        if (gameObject == null) return;
+        if ((transform.position - _player.transform.position).sqrMagnitude < _hitRange * _hitRange)
+        {
+            Destroy(gameObject);
+            _player.GotHit();
         }
     }
 }

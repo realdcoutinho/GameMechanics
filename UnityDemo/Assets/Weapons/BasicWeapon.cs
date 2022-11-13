@@ -13,6 +13,9 @@ public class BasicWeapon : MonoBehaviour
     private int _currentAmmo = 50;
     private float _fireTimer = 0.0f;
 
+    [SerializeField] private AudioSource _fireSound; 
+
+
     public int CurrentAmmo
     {
         get
@@ -21,10 +24,26 @@ public class BasicWeapon : MonoBehaviour
         }
     }
 
+    public void SetCurrentAmmo(int ammo)
+    {
+        _currentAmmo = ammo;
+    }
+
+
+    public int ClipSize
+    {
+        get
+        {
+            return _clipSize;
+        }
+    }
+
     private void Awake()
     {
         _currentAmmo = _clipSize;
     }
+
+
 
     //TESTCODE to see if the gun functions
 
@@ -63,6 +82,14 @@ public class BasicWeapon : MonoBehaviour
 
         //set the time so we can respect the firerate
         _fireTimer += 1.0f / _fireRate;
+
+
+        if(_fireSound)
+        {
+            _fireSound.Play();
+        }
+
+
     }
 
     public void Fire()
@@ -84,6 +111,17 @@ public class BasicWeapon : MonoBehaviour
         }
     }
 
+    public void GotHit()
+    {
+        if(_currentAmmo >= 0)
+        {
+            _currentAmmo = _currentAmmo - 10;
+        }
+        if (_currentAmmo < 0)
+        {
+            _currentAmmo = 0;
+        }
+    }
 
 
 }

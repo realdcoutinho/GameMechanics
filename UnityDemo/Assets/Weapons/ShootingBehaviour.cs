@@ -20,6 +20,8 @@ public class ShootingBehaviour : MonoBehaviour
     private BasicWeapon _primaryGun = null;
     private BasicWeapon _secondaryGun = null;
 
+
+
     public int PrimaryWeaponAmmo
     {
         get
@@ -62,6 +64,11 @@ public class ShootingBehaviour : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        //Debug.Log(_primaryGun.CurrentAmmo);
+    }
+
     public void PrimaryFire()
     {
         if (_primaryGun != null)
@@ -86,7 +93,35 @@ public class ShootingBehaviour : MonoBehaviour
     {
         if (_primaryGun != null)
             _primaryGun.ReloadHalf();
-        if (_secondaryGun != null)
-            _secondaryGun.Reload();
     }
+
+    public int clipSize
+    {
+        get
+        {
+            return _primaryGun.ClipSize;
+        }
+
+    }
+
+    public int currentAmmmo
+    {
+        get
+        {
+            return _primaryGun.CurrentAmmo;
+        }
+
+    }
+
+    public void SetCurrentAmmo(int ammo)
+    {
+        _primaryGun.SetCurrentAmmo(ammo);
+    }
+
+    public void GotHit()
+    {
+        Debug.Log("GotHIT SHOOTING BAHAVIOUR");
+        _primaryGun.GotHit();
+    }
+
 }

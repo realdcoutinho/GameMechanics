@@ -8,16 +8,25 @@ public class KeyHolder : MonoBehaviour
 {
     private List<Key.KeyType> keyList;
 
+    private SoundManager _soundManager = null;
 
     private void Awake()
     {
         keyList = new List<Key.KeyType>();
     }
+    private void Start()
+    {
+        SoundManager soundManager = FindObjectOfType<SoundManager>();
+        if (soundManager)
+        {
+            _soundManager = soundManager;
+        }
+    }
 
     public void AddKey(Key.KeyType keyType)
     {
-        Debug.Log("Added Key: " + keyType);
         keyList.Add(keyType);
+        _soundManager.PlayKeysPickUp();
     }
 
     public void RemoveKey(Key.KeyType keyType)
@@ -49,6 +58,8 @@ public class KeyHolder : MonoBehaviour
             }
         }
     }
+
+
 
 
 

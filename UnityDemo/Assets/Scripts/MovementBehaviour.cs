@@ -31,6 +31,17 @@ public class MovementBehaviour : MonoBehaviour
 
     }
 
+    public float Speed
+    {
+        get { return _movementSpeed; }
+        set { _movementSpeed = value; }
+    }
+
+    public void SetSpeed(float speed)
+    {
+        _movementSpeed = speed;
+    }
+
     protected virtual void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();

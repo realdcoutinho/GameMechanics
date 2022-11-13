@@ -57,28 +57,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Charger\ChargingStation.cs" />
+    <Compile Include="Assets\Enemies\EnemyShooter\EnemyShooter.cs" />
     <Compile Include="Assets\Weapons\BasicWeapon.cs" />
     <Compile Include="Assets\Charger\Charger.cs" />
     <Compile Include="Assets\Scripts\NavMeshMovementBehaviour.cs" />
+    <Compile Include="Assets\Sounds\SoundManager.cs" />
     <Compile Include="Assets\Weapons\ShootingBehaviour.cs" />
     <Compile Include="Assets\Scripts\GameOver.cs" />
     <Compile Include="Assets\Scripts\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\BasicCharacter.cs" />
     <Compile Include="Assets\Weapons\BasicProjectile.cs" />
+    <Compile Include="Assets\Enemies\EnemyTower\EnemyTower.cs" />
     <Compile Include="Assets\Charger\ModeManager.cs" />
+    <Compile Include="Assets\Platform\Test 1\WayPointPath.cs" />
+    <Compile Include="Assets\Gate\Gate.cs" />
     <Compile Include="Assets\Key\KeyDoor.cs" />
-    <Compile Include="Assets\Scripts\HUD.cs" />
+    <Compile Include="Assets\HUD\HUD.cs" />
     <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
     <Compile Include="Assets\Key\Key.cs" />
-    <Compile Include="Assets\Scripts\PlayerCharacter.cs" />
+    <Compile Include="Assets\Player\PlayerCharacter.cs" />
+    <Compile Include="Assets\Platform\Test\Platform.cs" />
     <Compile Include="Assets\Scripts\MovementBehaviour.cs" />
+    <Compile Include="Assets\Player\BatteryHolder.cs" />
+    <Compile Include="Assets\Platform\Test 1\MovingPlatform.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
-    <Compile Include="Assets\Scripts\EnemyKamikazeCharacter.cs" />
+    <Compile Include="Assets\Enemies\EnemyKamikaze\EnemyKamikazeCharacter.cs" />
     <Compile Include="Assets\Scripts\GameMode.cs" />
     <Compile Include="Assets\Camera\CameraBehaviour.cs" />
     <Compile Include="Assets\Charger\ChargerBattery.cs" />
     <Compile Include="Assets\Scripts\SpawnPoint.cs" />
     <Compile Include="Assets\Key\KeyHolder.cs" />
+    <Compile Include="Assets\Enemies\EnemyBrain.cs" />
+    <Compile Include="Assets\Player\LightManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

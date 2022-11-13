@@ -43,9 +43,9 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0, g: 0.47320795, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 10
+  m_Color: {r: 0, g: 0.97512245, b: 1, a: 1}
+  m_Intensity: 3
+  m_Range: 2.33
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -301,7 +301,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.52, y: 1.16, z: 1.81}
+  m_Size: {x: 2.2, y: 1.16, z: 2.88}
   m_Center: {x: 0, y: 0.48, z: 0}
 --- !u!1 &2413764735255238095
 GameObject:
@@ -366,7 +366,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5ffb6173265e15248add59f96713145c, type: 2}
+  - {fileID: 2100000, guid: 19c8510fc49d8d843bf8dfd3287e1524, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -476,7 +476,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5ffb6173265e15248add59f96713145c, type: 2}
+  - {fileID: 2100000, guid: 19c8510fc49d8d843bf8dfd3287e1524, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -683,7 +683,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5ffb6173265e15248add59f96713145c, type: 2}
+  - {fileID: 2100000, guid: 19c8510fc49d8d843bf8dfd3287e1524, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -883,9 +883,9 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0.057804264, b: 0, a: 1}
-  m_Intensity: 1
-  m_Range: 10
+  m_Color: {r: 1, g: 0.7137542, b: 0, a: 1}
+  m_Intensity: 3
+  m_Range: 2.33
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
