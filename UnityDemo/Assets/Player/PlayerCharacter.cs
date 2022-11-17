@@ -14,55 +14,46 @@ public class PlayerCharacter : BasicCharacter
 
     private Plane _cursorMovementPlane;
 
+    private SoundManager _soundManager = null;
     private BatteryHolder batteryHolder = null;
 
     public bool _isGameOver;
 
-    private BasicWeapon _basicWeapon = null;
 
-    private SoundManager _soundManager = null;
 
     protected override void Awake()
     {
         base.Awake();
         _cursorMovementPlane = new Plane(Vector3.up, transform.position);
-        batteryHolder = GetComponent<BatteryHolder>();
-        _basicWeapon = _shootingBehaviour.GetComponent<BasicWeapon>();
-        //if(_basicWeapon != null)
-        //{
-        //    _basicWeapon.SetCurrentAmmo(0);
-        //}
-
-
-        _isGameOver = false;
-        
+        batteryHolder = GetComponent<BatteryHolder>(); //gets the battery holder from the player
+        _isGameOver = false; //the agme is not over
     }
 
     private void Start()
     {
-        SoundManager soundManager = FindObjectOfType<SoundManager>();
-        if (soundManager)
+        SoundManager soundManager = FindObjectOfType<SoundManager>(); //gets sound manager
+        if (soundManager) //if it exists then youi can play sounds
         {
             _soundManager = soundManager;
         }
 
-        _shootingBehaviour.SetCurrentAmmo(0);
+        _shootingBehaviour.SetCurrentAmmo(0); //sets the ammo at the satrt fo the game to 0;
     }
 
     private void Update()
     {
         UpdatePlayerState();
-        if (!_isGameOver)
+        if (!_isGameOver) //if the game is not over, meaning if the player is not dead, then you can continue the updates
         {
-            HandleMovementInput();
-            HandleFireInput();
+            HandleMovementInput(); //handles movement
+            HandleFireInput(); //handles fire input
         }
     }
 
     void HandleMovementInput()
     {
-        if (_movementBehaviour == null)
-            return;
+        if (_movementBehaviour == null) //if movement behaviour exists, continnue
+            return; 
 
         //movement
         float horizontalMovement = Input.GetAxis(MOVEMENT_HORIZONTAL);
@@ -96,8 +87,6 @@ public class PlayerCharacter : BasicCharacter
         //fire
         if (Input.GetAxis(PRIMARY_FIRE) > 0.0f)
             _shootingBehaviour.PrimaryFire();
-        if (Input.GetAxis(SECONDARY_FIRE) > 0.0f)
-            _shootingBehaviour.SecondaryFire();
 
         //reload
         if (Input.GetAxis(RELOAD) > 0.0f)
@@ -106,42 +95,41 @@ public class PlayerCharacter : BasicCharacter
 
     private void OnTriggerEnter(Collider collider)
     {
-        ChargerBattery charger = collider.GetComponent<ChargerBattery>();
+        ChargerBattery charger = collider.GetComponent<ChargerBattery>(); //if get collides with a small charger
         if (charger != null)
         {
-            _shootingBehaviour.ReloadHalf();
-            Destroy(charger.gameObject);
+            _shootingBehaviour.ReloadHalf(); //reaload only half
+            Destroy(charger.gameObject); //and destroy the object charger
         }
 
-        ChargingStation station = collider.GetComponent<ChargingStation>();
+        ChargingStation station = collider.GetComponent<ChargingStation>(); //if it collides with a charging station
         if (station != null)
         {
-            if(station.GetChargingMode() == true)
+            if(station.GetChargingMode() == true) //if the charging station mode is on
             {
-                station.SetChargeMode();
-                _shootingBehaviour.Reload();
-                _soundManager.PlayPlayerCharging(); 
+                station.SetChargeMode(); //set the charging station mode to false
+                _shootingBehaviour.Reload(); //fully reload the player
+                _soundManager.PlayPlayerCharging();  //play the sound of the player charging its batteries
             }
         }
 
-        Gate gate = collider.GetComponent<Gate>();
+        Gate gate = collider.GetComponent<Gate>(); //if it collides (with the right side) of the gate, 
         if (gate != null)
         {
-            _soundManager.PlayGateOpen();
-            Destroy(gate.gameObject);
+            _soundManager.PlayGateOpen(); //play sound to open gate
+            Destroy(gate.gameObject); //destroy gate
         }
     }
 
-    public void GotHit()
+    public void GotHit() //player gets hit
     {
-        Debug.Log("Got Kamikazed");
-        batteryHolder.RemoveBattery();
-        _shootingBehaviour.GotHit();
+        batteryHolder.RemoveBattery(); //remove battery
+        _shootingBehaviour.GotHit(); //tell shooting behaviour (which will then remove ammo)
     }
     
-    public void UpdatePlayerState()
+    public void UpdatePlayerState() //game is over, or player is dead according the the number of batteries left in his arsenal
     {
-        _isGameOver = batteryHolder.GetPlayerState();
+        _isGameOver = batteryHolder.GetPlayerState(); 
     }
 
     public bool IsGameOver()

@@ -33,12 +33,12 @@ public class ChargingStation : MonoBehaviour
     private void Start()
     {
         InitializeStationObjects();
-        PlayerCharacter player = FindObjectOfType<PlayerCharacter>();
+        PlayerCharacter player = FindObjectOfType<PlayerCharacter>(); //if exists
         if (player)
         {
             _playerTarget = player.gameObject;
         }
-        SoundManager soundManager = FindObjectOfType<SoundManager>();
+        SoundManager soundManager = FindObjectOfType<SoundManager>(); //if exists
         if (soundManager)
         {
             _soundManager = soundManager;
@@ -48,6 +48,7 @@ public class ChargingStation : MonoBehaviour
 
     private void InitializeStationObjects()
     {
+        //gets lights from prefab
         _lightOneBlue = GameObject.Find("Light One Blue");
         _lightOneRed = GameObject.Find("Light One Red");
         _lightTwoBlue = GameObject.Find("Light Two Blue");
@@ -58,7 +59,7 @@ public class ChargingStation : MonoBehaviour
         _pointLightBlue = GameObject.Find("Point Light Blue");
         _pointLightRed = GameObject.Find("Point Light Red");
 
-        _pointLightBlue.SetActive(false);
+        _pointLightBlue.SetActive(false); //lights satrt off
         _pointLightRed.SetActive(false);
     }
 
@@ -66,14 +67,14 @@ public class ChargingStation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _playerPosition = _playerTarget.transform.position;
+        _playerPosition = _playerTarget.transform.position; //constantly updates the player positin
         UpdatePlayerPosition();
-        if (_canCharge == false)
+        if (_canCharge == false) //can it charge?
         {
-            _timeSinceCharge += Time.deltaTime;
-            if (_timeSinceCharge >= _timeBetweenCharges)
+            _timeSinceCharge += Time.deltaTime; //how long has it been since last charge?
+            if (_timeSinceCharge >= _timeBetweenCharges) //has enought time passed?
             {
-                _timeSinceCharge = 0.0f;
+                _timeSinceCharge = 0.0f; 
                 _canCharge = true;
                 _doOnceOn = true;
                 _doOnceOff = true;
@@ -83,7 +84,7 @@ public class ChargingStation : MonoBehaviour
 
     public void SetChargeMode()
     {
-        if (_canCharge == true && _timeSinceCharge == 0.0f)
+        if (_canCharge == true && _timeSinceCharge == 0.0f) 
         {
             _canCharge = false;
         }
@@ -132,20 +133,20 @@ public class ChargingStation : MonoBehaviour
 
     private void UpdatePlayerPosition()
     {
-        if ((transform.position - _playerPosition).sqrMagnitude < _senseRadius * _senseRadius)
+        if ((transform.position - _playerPosition).sqrMagnitude < _senseRadius * _senseRadius) //if player is in range
         {
-            ManageLight();
+            ManageLight(); // manage lights
         }
-        if ((transform.position - _playerPosition).sqrMagnitude > _senseRadius * _senseRadius)
+        if ((transform.position - _playerPosition).sqrMagnitude > _senseRadius * _senseRadius) //if he is not in range
         {
-            if(!_doOnceOff)
+            if(!_doOnceOff) //are they off?
             {
-                _pointLightRed.SetActive(false);
+                _pointLightRed.SetActive(false); //then they should
                 _doOnceOff = true;
             }
-            if (!_doOnceOn)
+            if (!_doOnceOn) //are the on?
             {
-                _pointLightBlue.SetActive(false);
+                _pointLightBlue.SetActive(false); //then they should
                 _doOnceOn = true;
             }
         }

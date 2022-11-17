@@ -86,7 +86,7 @@ public class BasicWeapon : MonoBehaviour
 
         if(_fireSound)
         {
-            _fireSound.Play();
+            _fireSound.Play(); //play shooting sound. This will depend on who is shooting. Is it the player, the enemy tower or the enemy shooter(?)
         }
 
 
@@ -97,27 +97,27 @@ public class BasicWeapon : MonoBehaviour
         _triggerPulled = true;
     }
 
-    public void Reload()
+    public void Reload() //reloads gun
     {
         _currentAmmo = _clipSize;
     }
 
-    public void ReloadHalf()
+    public void ReloadHalf() //only reloads half of the ammo
     {
         _currentAmmo += _clipSize/2;
-        if( _currentAmmo > _clipSize)
+        if( _currentAmmo > _clipSize) //if by adding 25 if gets greater than clip size
         {
-            _currentAmmo = _clipSize;
+            _currentAmmo = _clipSize; //then it will become the same as clip size
         }
     }
 
-    public void GotHit()
+    public void GotHit() // player gets hit
     {
-        if(_currentAmmo >= 0)
+        if(_currentAmmo >= 0) //ig current ammo is
         {
-            _currentAmmo = _currentAmmo - 10;
+            _currentAmmo = _currentAmmo - 10; // then deduct 10 from it
         }
-        if (_currentAmmo < 0)
+        if (_currentAmmo < 0) //if now its lower then 0, maintain at 0
         {
             _currentAmmo = 0;
         }

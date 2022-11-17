@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : MonoBehaviour // Holds all the sounds played in game.
 {
     //enemy
     [SerializeField] private AudioSource _enemyHit;

@@ -9,18 +9,9 @@ public class ShootingBehaviour : MonoBehaviour
     private GameObject _primaryGunTemplate = null;
 
     [SerializeField]
-    private GameObject _secondaryGunTemplate = null;
-
-    [SerializeField]
     private GameObject _primarySocket = null;
 
-    [SerializeField]
-    private GameObject _secondarySocket = null;
-
     private BasicWeapon _primaryGun = null;
-    private BasicWeapon _secondaryGun = null;
-
-
 
     public int PrimaryWeaponAmmo
     {
@@ -32,16 +23,7 @@ public class ShootingBehaviour : MonoBehaviour
                 return 0;
         }
     }
-    public int SecondaryWeaponAmmo
-    {
-        get
-        {
-            if (_secondaryGun)
-                return _secondaryGun.CurrentAmmo;
-            else
-                return 0;
-        }
-    }
+
 
 
 
@@ -55,18 +37,10 @@ public class ShootingBehaviour : MonoBehaviour
             gunObject.transform.localRotation = Quaternion.identity;
             _primaryGun = gunObject.GetComponent<BasicWeapon>();
         }
-        if (_secondaryGunTemplate != null && _secondarySocket != null)
-        {
-            var gunObject = Instantiate(_secondaryGunTemplate, _secondarySocket.transform, true);
-            gunObject.transform.localPosition = Vector3.zero;
-            gunObject.transform.localRotation = Quaternion.identity;
-            _secondaryGun = gunObject.GetComponent<BasicWeapon>();
-        }
     }
 
     void Update()
     {
-        //Debug.Log(_primaryGun.CurrentAmmo);
     }
 
     public void PrimaryFire()
@@ -75,18 +49,12 @@ public class ShootingBehaviour : MonoBehaviour
             _primaryGun.Fire();
     }
 
-    public void SecondaryFire()
-    {
-        if (_secondaryGun != null)
-            _secondaryGun.Fire();
-    }
+
 
     public void Reload()
     {
         if (_primaryGun != null)
             _primaryGun.Reload();
-        if (_secondaryGun != null)
-            _secondaryGun.Reload();
     }
 
     public void ReloadHalf()
@@ -104,7 +72,7 @@ public class ShootingBehaviour : MonoBehaviour
 
     }
 
-    public int currentAmmmo
+    public int currentAmmmo //gets the current ammo
     {
         get
         {
@@ -113,14 +81,13 @@ public class ShootingBehaviour : MonoBehaviour
 
     }
 
-    public void SetCurrentAmmo(int ammo)
+    public void SetCurrentAmmo(int ammo) //se4ts ammo depending on hits and charger pickups
     {
         _primaryGun.SetCurrentAmmo(ammo);
     }
 
-    public void GotHit()
+    public void GotHit() // gets hit
     {
-        Debug.Log("GotHIT SHOOTING BAHAVIOUR");
         _primaryGun.GotHit();
     }
 

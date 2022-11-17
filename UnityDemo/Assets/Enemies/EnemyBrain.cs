@@ -1,55 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyBrain : BasicCharacter
+public class EnemyBrain : BasicCharacter //controlls all enemies from this script
 {
     private GameObject _playerTarget = null;
     private float _shootRange; //shoot or bomb radius
-    private float _seeRange;
-    private float _movementRange;
-    private float _stopRange;
-    private bool _killed;
+    private float _seeRange; //how far it can see
+    private float _movementRange; //when it satrts to move
+    private float _stopRange; //when it will stop moving
+    private bool _killed; // is killed
 
 
-    private GameObject _lightTop;
-    private GameObject _lightFront;
-    private bool _lightsOn;
-    private Vector3 _playerPosition;
+    private GameObject _lightTop; //they have a top light
+    private GameObject _lightFront; //and a front light
+    private bool _lightsOn; //and lights start off
+    private Vector3 _playerPosition; //they also have player position
 
-    [SerializeField] public bool _IsShooter = false;
-    [SerializeField] public bool _IsTower = false;
-    [SerializeField] public bool _IsKamikaze = false;
 
-    private float _elapsedTime;
-    private float _timeBetweenShots;
+    //which type of enemy are they?
+    [SerializeField] public bool _IsShooter = false; //are they shooter?
+    [SerializeField] public bool _IsTower = false; //are they towers?
+    [SerializeField] public bool _IsKamikaze = false; //are they kamikaze bombers?
+    //depending on thier type, their behaviour changes with it
 
-    private SoundManager _soundManager = null;
 
-    private PlayerCharacter _player = null;
+    private float _elapsedTime; //has time plassed
+    private float _timeBetweenShots; //time to reload before each shot
+
+    private SoundManager _soundManager = null; //holds sounds
+
+    private PlayerCharacter _player = null; //holds player
 
     private void Start()
     {
-        InitializeLights();
-        InitializeVariables();
-
-
-        _elapsedTime = 0;
-        _timeBetweenShots = 0.5f;
-        //expensive method, use with caution
-        PlayerCharacter player = FindObjectOfType<PlayerCharacter>();
-        if (player)
-        {
-            _playerTarget = player.gameObject;
-            _player = player;
-
-        }
-
-        SoundManager soundManager = FindObjectOfType<SoundManager>();
-        if (soundManager)
-        {
-            _soundManager = soundManager;
-        }
+        InitializeLights();  //controls lights
+        InitializeVariables(); //initialize variables
     }
 
     private void Update()
@@ -70,7 +57,26 @@ public class EnemyBrain : BasicCharacter
 
     private void InitializeVariables()
     {
-        if(_IsTower && !_IsKamikaze && !_IsShooter) //tower
+        //expensive method, use with caution
+        PlayerCharacter player = FindObjectOfType<PlayerCharacter>(); //gets player
+        if (player) //if exists
+        {
+            _playerTarget = player.gameObject;
+            _player = player;
+
+        }
+
+        SoundManager soundManager = FindObjectOfType<SoundManager>(); //hols sounds
+        if (soundManager) //if exists
+        {
+            _soundManager = soundManager;
+        }
+
+
+        _elapsedTime = 0;
+        _timeBetweenShots = 0.5f; //time between shots
+        //variables have been explained
+        if (_IsTower && !_IsKamikaze && !_IsShooter) //tower
         {
             _shootRange = 11.5f;
             _seeRange = 12.0f;
@@ -94,39 +100,42 @@ public class EnemyBrain : BasicCharacter
 
     void HandleMovement()
     {
-        if (_movementBehaviour == null)
+        if (_movementBehaviour == null) //if movement exists, then continue
             return;
 
-        _playerPosition = _playerTarget.transform.position;
-        if(!_IsTower)
+        _playerPosition = _playerTarget.transform.position; //get the current player position
+        
+        
+        if(!_IsTower) //first we check for towers. towers dont move. if its not a tower we can handle the in game movement
         {
-            if(_IsShooter)
+            if(_IsShooter)//okay, is it a shooter?
             {
-                if ((transform.position - _playerPosition).sqrMagnitude < _movementRange * _movementRange)
+                if ((transform.position - _playerPosition).sqrMagnitude < _movementRange * _movementRange) //if so, we need to check if the player is in range to move
                 {
-                    if ((transform.position - _playerPosition).sqrMagnitude < _stopRange * _stopRange)
+                    //alright he is, but....
+                    if ((transform.position - _playerPosition).sqrMagnitude < _stopRange * _stopRange) //is he to close? if he is, stop all movement. otherwise the enemy will drag the player
                     {
                         _movementBehaviour.Target = null;
                     }
-                    if ((transform.position - _playerPosition).sqrMagnitude > _stopRange * _stopRange)
+                    if ((transform.position - _playerPosition).sqrMagnitude > _stopRange * _stopRange) //he is close enought to move, but not close enought to bump against? then keep moving
                     {
                         _movementBehaviour.Target = _playerTarget;
                     }
                 }
-                if ((transform.position - _playerPosition).sqrMagnitude > _movementRange * _movementRange)
+                if ((transform.position - _playerPosition).sqrMagnitude > _movementRange * _movementRange) //if he is not even in range to move, dont move, there is no target
                 {
                     _movementBehaviour.Target = null;
                 }
             }
-            else
+            else //if he is not a shotter and he is not a tower, he must be a kamikazee
             {
-                if ((transform.position - _playerPosition).sqrMagnitude < _movementRange * _movementRange)
+                if ((transform.position - _playerPosition).sqrMagnitude < _movementRange * _movementRange) //is he in range to move?
                 {
-                    _movementBehaviour.Target = _playerTarget;
+                    _movementBehaviour.Target = _playerTarget; // then  move until you hit him
                 }
-                if ((transform.position - _playerPosition).sqrMagnitude > _movementRange * _movementRange)
+                if ((transform.position - _playerPosition).sqrMagnitude > _movementRange * _movementRange) //else
                 {
-                    _movementBehaviour.Target = null;
+                    _movementBehaviour.Target = null; // dont move
                 }
             }
 
@@ -135,7 +144,7 @@ public class EnemyBrain : BasicCharacter
 
     void HandleAttacking()
     {
-        if (_shootingBehaviour == null) return;
+        if (_shootingBehaviour == null) return; 
 
         if (_playerTarget == null) return;
 
@@ -143,27 +152,28 @@ public class EnemyBrain : BasicCharacter
 
         //if we are in range of the player, fire our weapon,
         //use sqr maginitude when comparing ranges as it is more efficient
-        if ((transform.position - _playerTarget.transform.position).sqrMagnitude < _shootRange * _shootRange)
+        if ((transform.position - _playerTarget.transform.position).sqrMagnitude < _shootRange * _shootRange) // is player in range to shoot?
         {
-            if(_IsKamikaze)
+            if(_IsKamikaze) //is enemy a kamikazze?
             {
 
-                if (!_killed)
+                if (!_killed) // if kamikaze is still around
                 {
-                    _soundManager.PLayKamikazeBomb();
-                    _killed = true;
+                    _player.GotHit(); //player gets hit
+                    _soundManager.PLayKamikazeBomb(); //play bomb sound
+                    _killed = true; //and gets killed
                 }
 
-                Kill();
+                Kill(); //kills the kamikaze
                 Invoke(KILL_METHODNAME, 0.2f);
-                return;
+                return; //ends here
             }
 
-            if (_elapsedTime > _timeBetweenShots)
+            if (_elapsedTime > _timeBetweenShots) // he if he is ahooter or a tower, he damages the player with shots. if he can shoot
             {
-                _shootingBehaviour.PrimaryFire();
-                _shootingBehaviour.Reload();
-                _elapsedTime = 0.0f;
+                _shootingBehaviour.PrimaryFire(); // do primary fire
+                _shootingBehaviour.Reload(); //realod
+                _elapsedTime = 0.0f; // and set time back to 0
             }
         }
     }
@@ -171,41 +181,41 @@ public class EnemyBrain : BasicCharacter
     const string KILL_METHODNAME = "Kill";
     void Kill()
     {
-        Destroy(gameObject);
+        Destroy(gameObject); //destroys object
     }
 
-    private void UpdateLights()
+    private void UpdateLights() //updates lights
     {
-        if(gameObject == null) return;
-        if ((transform.position - _playerPosition).sqrMagnitude < _seeRange * _seeRange)
-        {
-            _movementBehaviour.DesiredLookatPoint = _playerPosition;
-            if (!_lightsOn)
+        if(gameObject == null) return; //if it exists
+        if ((transform.position - _playerPosition).sqrMagnitude < _seeRange * _seeRange) //is player in seeing range?
+        {//if so
+            _movementBehaviour.DesiredLookatPoint = _playerPosition; //the player because the point the enemies have to look to, so they can shoot properly
+            if (!_lightsOn)//if lights were off, the you can turn them on
             {
                 _lightTop.SetActive(true);
                 _lightFront.SetActive(true);
-                _lightsOn = true;
+                _lightsOn = true; //now they are on
             }
         }
-        if ((transform.position - _playerPosition).sqrMagnitude > _seeRange * _seeRange)
+        if ((transform.position - _playerPosition).sqrMagnitude > _seeRange * _seeRange) // the player is not in seeing radious
         {
-            if (_lightsOn)
+            if (_lightsOn) //were lights on?
             {
                 _lightTop.SetActive(false);
                 _lightFront.SetActive(false);
-                _lightsOn = false;
+                _lightsOn = false; //now they are off
             }
         }
     }
 
     private void OnTriggerEnter(Collider collider)
     {
-        BasicProjectile projectile = collider.GetComponent<BasicProjectile>();
-        if (projectile != null)
+        BasicProjectile projectile = collider.GetComponent<BasicProjectile>(); //gets projectyile
+        if (projectile != null) //if collides with projectile
         {
-            _soundManager.PlayEnemyHit();
-            Destroy(projectile.gameObject);
-            Kill();
+            _soundManager.PlayEnemyHit(); //plays dead sound
+            Destroy(projectile.gameObject); //destoys projectile
+            Kill(); // kills enemy
         }
     }
 

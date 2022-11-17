@@ -5,14 +5,14 @@ using UnityEngine;
 public class Key : MonoBehaviour
 {
     [SerializeField] private KeyType keyType;
-    public enum KeyType
+    public enum KeyType //sets keys types
     {
         Red,
         Green,
         Blue
     }
 
-    public KeyType GetKeyType()
+    public KeyType GetKeyType() //reruens keytype
     {
         return keyType;
     }

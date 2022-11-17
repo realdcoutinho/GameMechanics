@@ -65,12 +65,6 @@ public class BasicProjectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        //PlayerCharacter player = other.GetComponent<PlayerCharacter>();
-        //if (player != null)
-        //{
-        //    Debug.Log("Hiiiiiiiiiiiiiit");
-        //    Destroy(gameObject);
-        //}
 
         //make sure we only hit friendly or enemies
         if (other.tag != FRIENDLY_TAG && other.tag != ENEMY_TAG)
@@ -87,19 +81,20 @@ public class BasicProjectile : MonoBehaviour
             otherHealth.Damage(_damage);
             Kill();
         }
-
-
-
-
     }
 
     private void Update()
     {
-        if (gameObject == null) return;
-        if ((transform.position - _player.transform.position).sqrMagnitude < _hitRange * _hitRange)
+        PlayerHit();
+    }
+
+    private void PlayerHit() 
+    {
+        if (gameObject == null) return; //if bullet exists
+        if ((transform.position - _player.transform.position).sqrMagnitude < _hitRange * _hitRange) // if player is in range
         {
-            Destroy(gameObject);
-            _player.GotHit();
+            Destroy(gameObject); //destroy projectile
+            _player.GotHit(); //get player hit
         }
     }
 }

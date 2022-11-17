@@ -12,23 +12,9 @@ public class CameraBehaviour : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_player != null )
+        if(_player != null ) //Does Player Exist?
         {
             transform.position = Vector3.Lerp(transform.position, _player.transform.position, _followSpeed * Time.deltaTime);
         }
     }
-
-
-
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-
-    //}
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
 }

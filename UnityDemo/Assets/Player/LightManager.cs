@@ -1,47 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LightManager : MonoBehaviour
 {
-    private GameObject _light1;
-    private GameObject _light2;
-    private GameObject _light3;
-    private GameObject _light4;
-    private GameObject _light5;
+    private GameObject _light1; //the round light around the player
+    private GameObject _light2; //the light to see foward
+    private GameObject _light3; //the light to see foward
+    private GameObject _light4; //the light to see foward
+    private GameObject _light5; //the light to see foward
 
     BatteryHolder _playerBatteries = null;
 
-    private int _nrOfBatteries = 5;
-    private SoundManager _soundManager = null;
+    private int _nrOfBatteries = 5; //max number of batteries in fact
+    private SoundManager _soundManager = null; // from here sounds will be played
 
     // Start is called before the first frame update
     void Start()
     {
-        PlayerCharacter player = FindObjectOfType<PlayerCharacter>();
+        PlayerCharacter player = FindObjectOfType<PlayerCharacter>(); //gets the player from the game
 
-        if (player != null)
+        if (player != null) //if exists
         {
-            _playerBatteries = player.GetComponent<BatteryHolder>();
+            _playerBatteries = player.GetComponent<BatteryHolder>();//then gets its battery holder
         }
-        SoundManager soundManager = FindObjectOfType<SoundManager>();
-        if (soundManager)
+        SoundManager soundManager = FindObjectOfType<SoundManager>(); //get sound manager from game
+        if (soundManager) //if exists
         {
-            _soundManager = soundManager;
+            _soundManager = soundManager; //hold it
         }
 
         InitializeLights();
-        _nrOfBatteries = 0;
+        _nrOfBatteries = 0; //initial number of battreies is 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _nrOfBatteries = _playerBatteries.currentBatteryNumber;
+        _nrOfBatteries = _playerBatteries.currentBatteryNumber; //updates
         UpdateLights();
     }
 
-    private void InitializeLights()
+    private void InitializeLights() //they start all off excpet for the one around the p[layer
     {
         _light1 = GameObject.Find("Spot Light 1");
         _light2 = GameObject.Find("Spot Light 2");
@@ -56,7 +57,7 @@ public class LightManager : MonoBehaviour
         _light5.SetActive(true);
     }
 
-    private void UpdateLights()
+    private void UpdateLights() //updates the state of the lights
     {
         if(_nrOfBatteries == 5)
         {
@@ -81,7 +82,7 @@ public class LightManager : MonoBehaviour
         }
         if (_nrOfBatteries == 2)
         {
-            _soundManager.PlayPlayerLowBattery();
+            _soundManager.PlayPlayerLowBattery(); //plays a sound when battery level satrts to go down
             _light2.SetActive(true);
             _light3.SetActive(false);
             _light4.SetActive(false);
